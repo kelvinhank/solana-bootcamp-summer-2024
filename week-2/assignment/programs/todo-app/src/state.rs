@@ -1,4 +1,4 @@
-use anchor_lang:prelude::*;
+use anchor_lang::prelude::*;
 
 #[account]
 pub struct Profile{
@@ -12,7 +12,7 @@ impl Profile{
     pub const SPACE: usize =32 + // Pubkey 
                             (4+100) // String 100
                             + 32 // Pubkey
-                            +1 // u8
+                            +1; // u8
 }
 
 #[account]

@@ -11,7 +11,7 @@ assignment = "Hf2EujMsJotwDcSkTxo2uvfTZtfFQcoLVTKjRvmr6jKz"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "Devnet"
 wallet = "/home/relipa/.config/solana/id.json"
 
 [scripts]
