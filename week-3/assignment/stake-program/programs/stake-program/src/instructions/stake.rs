@@ -9,41 +9,43 @@ use anchor_spl::{
 };
 
 #[derive(Accounts)]
-pub struct Stake<'info>{
+pub struct Stake<'info> {
     #[account(mut)]
-    pub  staker: Signer<'info>,
+    pub staker: Signer<'info>,
 
     pub mint: Account<'info, Mint>,
 
+    #[account(
+        init_if_needed,
+        payer = staker,
+        seeds = [
+            STAKE_INFO_SEED,
+            staker.key().as_ref(),
+            mint.key().as_ref()
+        ],
+        bump,
+        space = 8 + StakeInfo::INIT_SPACE
+    )]
+    pub stake_info: Account<'info, StakeInfo>,
 
     #[account(
         init_if_needed,
-        payer=staker,
-        bump,
-        seeds=[STAKE_INFO_SEED,staker.key().as_ref()],
-        space= 8 +StakeInfo:INIT_SPACE
-    )]
-    pub stake_info: Account<'info,StakeInfo>
-    
-    #[account(
-        init_if_needed,
-        payer=staker,
-        associated_token::mint=mint,
-        associated_token::authority=staker_info
+        payer = staker,
+        associated_token::mint = mint,
+        associated_token::authority = stake_info,
     )]
     pub vault_token_account: Account<'info, TokenAccount>,
 
     #[account(
         mut,
-        associated_token::mint=mint,
-        associated_token::authority=staker
+        associated_token::mint = mint,
+        associated_token::authority = staker,
     )]
     pub staker_token_account: Account<'info, TokenAccount>,
 
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
     pub associated_token_program: Program<'info, AssociatedToken>,
-
 }
 
 pub fn stake(ctx: Context<Stake>, amount: u64) -> Result<()> {
@@ -64,6 +66,7 @@ pub fn stake(ctx: Context<Stake>, amount: u64) -> Result<()> {
     stake_info.stake_at = clock.slot;
     stake_info.is_staked = true;
     stake_info.amount = amount;
+    stake_info.bump = ctx.bumps.stake_info;
 
     // transfer token to vault
     transfer(

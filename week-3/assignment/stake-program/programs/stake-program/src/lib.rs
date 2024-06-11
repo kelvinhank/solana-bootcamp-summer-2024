@@ -1,9 +1,12 @@
 use anchor_lang::prelude::*;
 use instructions::*;
 
+mod contants;
+mod errors;
+mod instructions;
+mod state;
 
-
-declare_id!("Gg5p4qsRXpneeSSiLUces9sMM3F3wp5AArGR9RnSrDky");
+declare_id!("Dwdm6dTSfQeBFFi8mYeNLzZ8njhyQ6Hb8VQSeQEPBzu1");
 
 #[program]
 pub mod stake_program {
@@ -13,15 +16,11 @@ pub mod stake_program {
         instructions::initialize(ctx)
     }
 
-    pub fn stake(ctx:Context<Stake>,amount:u64) ->Result<()>{
-        instructions::stake(ctx,amount)
-        Ok(())
+    pub fn stake(ctx: Context<Stake>, amount: u64) -> Result<()> {
+        instructions::stake(ctx, amount)
     }
-    
-    pub fn unstake(ctx:Context<Unstake>) ->Result<()>{
-        instructions::unstake(ctx)
-        Ok(())
+
+    pub fn unstake(ctx: Context<Unstake>, amount: u64) -> Result<()> {
+        instructions::unstake(ctx, amount)
     }
 }
-
-

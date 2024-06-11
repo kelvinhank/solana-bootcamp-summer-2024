@@ -12,4 +12,6 @@ pub struct StakeInfo {
     pub is_staked: bool,
 
     pub amount: u64,
+
+    pub bump: u8,
 }
