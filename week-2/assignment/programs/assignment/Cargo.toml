@@ -1,12 +1,12 @@
 [package]
-name = "todo-app"
+name = "assignment"
 version = "0.1.0"
 description = "Created with Anchor"
 edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "todo_app"
+name = "assignment"
 
 [features]
 no-entrypoint = []
